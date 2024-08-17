@@ -57,6 +57,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .emailId(UUID.randomUUID().toString())
+                .websocketId(UUID.randomUUID().toString())
                 .build();
         emailService.sendEmail(user.getEmail(), user.getUsername() + ", please verify your email for CollabPad",
                 "Hi " + user.getFirstName() + "! Authenticate here (Do NOT share this link) --> http://localhost:4200/login/" + user.getEmailId());

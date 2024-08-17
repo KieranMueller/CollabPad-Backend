@@ -34,6 +34,7 @@ public class User implements UserDetails {
     private Role role;
     private boolean verifiedEmail;
     private String emailId;
+    private String websocketId;
 
     public enum Role {
         USER,

@@ -2,8 +2,7 @@ package com.kieran.notepad.model;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
