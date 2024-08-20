@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,8 +20,11 @@ public class WebSocketController {
 
     @MessageMapping("/send/{sessionId}")
 //    @SendTo("/topic/messages")
-    public void sendMessageToSession(@DestinationVariable String sessionId, @RequestBody Message<String> message) {
-        log.info("Received message. SessionId ({}), message ({})", sessionId, message.getPayload());
-        messagingTemplate.convertAndSend("/topic/messages/" + sessionId, message);
+    public void sendMessageToSession(@DestinationVariable String sessionId,
+                                     @RequestBody Message<String> message) {
+        log.info("Received message. SessionId ({}), Message ({}), ({})", sessionId, message.getPayload(), message);
+        log.info("{}", message.getHeaders().get("nativeHeaders"));
+        // Figure out how to get native headers and send back to client ^^^ need machineId
+        messagingTemplate.convertAndSend("/topic/messages/" + sessionId, message, message.getHeaders());
     }
 }

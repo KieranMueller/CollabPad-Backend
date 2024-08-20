@@ -30,22 +30,22 @@ public class AuthService {
     public ResponseEntity<AuthenticationResponse> register(User request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             AuthenticationResponse res = new AuthenticationResponse(null,
-                    "Username " + request.getUsername() + " already exists");
+                    "Username " + request.getUsername() + " already exists", null, null);
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
         if (userRepository.findByEmailAndVerifiedEmailTrue(request.getEmail()).isPresent()) {
             AuthenticationResponse res = new AuthenticationResponse(null,
-                    "Email " + request.getEmail() + " already exists");
+                    "Email " + request.getEmail() + " already exists", null, null);
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
         if (request.getUsername().length() < 4) {
             AuthenticationResponse res = new AuthenticationResponse(null,
-                    "Username must be at least 4 characters");
+                    "Username must be at least 4 characters", null, null);
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
         if (request.getPassword().length() < 6) {
             AuthenticationResponse res = new AuthenticationResponse(null,
-                    "Password must be at least 6 characters");
+                    "Password must be at least 6 characters", null, null);
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
 
@@ -63,7 +63,7 @@ public class AuthService {
                 "Hi " + user.getFirstName() + "! Authenticate here (Do NOT share this link) --> http://localhost:4200/login/" + user.getEmailId());
         user = userRepository.save(user);
         String token = jwtService.generateToken(user);
-        AuthenticationResponse res = new AuthenticationResponse(token, null);
+        AuthenticationResponse res = new AuthenticationResponse(token, "Success", user.getUsername(), user.getWebsocketId());
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
@@ -76,7 +76,7 @@ public class AuthService {
         );
         User user = userRepository.findByUsernameAndVerifiedEmailTrue(request.getUsername()).orElseThrow();
         String token = jwtService.generateToken(user);
-        AuthenticationResponse res = new AuthenticationResponse(token, null);
+        AuthenticationResponse res = new AuthenticationResponse(token, null, user.getUsername(), user.getWebsocketId());
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
