@@ -24,7 +24,6 @@ public class WebSocketController {
                                      @RequestBody Message<String> message) {
         log.info("Received message. SessionId ({}), Message ({}), ({})", sessionId, message.getPayload(), message);
         log.info("{}", message.getHeaders().get("nativeHeaders"));
-        // Figure out how to get native headers and send back to client ^^^ need machineId
         messagingTemplate.convertAndSend("/topic/messages/" + sessionId, message, message.getHeaders());
     }
 }
