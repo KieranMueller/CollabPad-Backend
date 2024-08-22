@@ -22,7 +22,7 @@ public class BeforeAppStartup implements CommandLineRunner {
     public void run(String... args) throws Exception {
         User user1 = User.builder()
                 .username("KieranMueller")
-                .email("kieran98mueller@gmail.com")
+                .email("dummy@gmail.com")
                 .password(encoder.encode("password!"))
                 .firstName("Kieran")
                 .lastName("Mueller")
