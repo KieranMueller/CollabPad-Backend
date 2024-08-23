@@ -22,9 +22,9 @@ spring:
       ddl-auto: create-drop
       show-sql: false
   datasource:
-    url: ${localDBUrl}
-    username: ${localDBUsername}
-    password: ${localDBPassword}
+    url: ${prodDBUrl}
+    username: ${prodDBUsername}
+    password: ${prodDBPassword}
     driver-class-name: com.mysql.cj.jdbc.Driver
 jwt:
   secret-key: ${jwtSecretKey}
