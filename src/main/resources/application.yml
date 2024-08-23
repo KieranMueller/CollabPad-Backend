@@ -1,1 +1,32 @@
-spring.application.name=notepad
+server:
+  port: 8081
+spring:
+  mail:
+    host: live.smtp.mailtrap.io
+    port: 2525
+    username: api
+    password: ${mailPassword}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  config:
+    import:
+      env.properties
+  jpa:
+    open-in-view: false
+    hibernate:
+      #      ddl-auto: update
+      ddl-auto: create-drop
+      show-sql: false
+  datasource:
+    url: ${localDBUrl}
+    username: ${localDBUsername}
+    password: ${localDBPassword}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+jwt:
+  secret-key: ${jwtSecretKey}
+  # 24 Hours
+  ttl-ms: 86400000

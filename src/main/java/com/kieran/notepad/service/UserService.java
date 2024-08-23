@@ -27,13 +27,14 @@ public class UserService {
         }
         User user = opUser.get();
         user.setHistory(req.getHistory());
+        log.info("Saving user {} state as {}", user.getUsername(), user.getHistory());
         userRepository.save(user);
         return ResponseEntity.ok().body(Map.of("status", "Saved user state"));
     }
 
     public ResponseEntity<Map<String, String>> getUserState(String username) {
         Optional<User> opUser = userRepository.findByUsername(username);
-        return opUser.map(user -> new ResponseEntity<>(Map.of("history", user.getHistory(),
+        return opUser.map(user -> new ResponseEntity<>(Map.of("history", user.getHistory() == null ? "" : user.getHistory(),
                         "websocketId", opUser.get().getWebsocketId()), HttpStatus.OK))
                 .orElseGet(this::userNotFound);
     }

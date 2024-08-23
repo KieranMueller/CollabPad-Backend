@@ -32,8 +32,21 @@ public class BeforeAppStartup implements CommandLineRunner {
                 .emailId(UUID.randomUUID().toString())
                 .websocketId(UUID.randomUUID().toString())
                 .build();
+        User user2 = User.builder()
+                .username("Jippers")
+                .email("dummy2@gmail.com")
+                .password(encoder.encode("password!"))
+                .firstName("Jasper")
+                .lastName("Mueller")
+                .history(null)
+                .role(User.Role.USER)
+                .verifiedEmail(true)
+                .emailId(UUID.randomUUID().toString())
+                .websocketId(UUID.randomUUID().toString())
+                .build();
 
         User savedUser1 = userRepository.save(user1);
-        log.info("Pre-populated database with user: {}", savedUser1);
+        User savedUser2 = userRepository.save(user2);
+        log.info("Pre-populated database with users: {}, {}", savedUser1, savedUser2);
     }
 }
