@@ -21,11 +21,14 @@ spring:
       #      ddl-auto: update
       ddl-auto: create-drop
       show-sql: false
+      dialect: org.hibernate.dialect.SQLServer2012Dialect
+---
+spring:
   datasource:
     url: ${prodDBUrl}
     username: ${prodDBUsername}
     password: ${prodDBPassword}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 jwt:
   secret-key: ${jwtSecretKey}
   # 24 Hours
