@@ -5,16 +5,16 @@ spring:
     host: live.smtp.mailtrap.io
     port: 2525
     username: api
-    password: ${mailPassword:fallback}
+    password: ${MAILPASSWORD}
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-  config:
-    import:
-      env.properties
+#  config:
+#    import:
+#      env.properties
   jpa:
     open-in-view: false
     hibernate:
@@ -25,11 +25,11 @@ spring:
 ---
 spring:
   datasource:
-    url: ${prodDBUrl:fallback}
-    username: ${prodDBUsername:fallback}
-    password: ${prodDBPassword:fallback}
+    url: ${PRODDBURL}
+    username: ${PRODDBUSERNAME}
+    password: ${PRODDBPASSWORD}
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 jwt:
-  secret-key: ${jwtSecretKey:fallback}
+  secret-key: ${JWTSECRETKEY}
   # 24 Hours
   ttl-ms: 86400000
