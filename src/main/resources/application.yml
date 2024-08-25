@@ -12,9 +12,9 @@ spring:
           auth: true
           starttls:
             enable: true
-  config:
-    import:
-      env.properties
+#  config:
+#    import:
+#      env.properties
   jpa:
     open-in-view: false
     hibernate:
