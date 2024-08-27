@@ -18,12 +18,12 @@ public class WebSocketController {
 
     private final SimpMessagingTemplate messagingTemplate;
 
-    @MessageMapping("/send/{sessionId}")
-//    @SendTo("/topic/messages")
-    public void sendMessageToSession(@DestinationVariable String sessionId,
+    @MessageMapping("/send/{userId}")
+    public void sendMessageToSession(@DestinationVariable String userId,
                                      @RequestBody Message<String> message) {
-        log.info("Received message. SessionId ({}), Message ({}), ({})", sessionId, message.getPayload(), message);
+        log.info("Received message. UserId ({}), Message ({}), ({})", userId,
+                message.getPayload(), message);
         log.info("{}", message.getHeaders().get("nativeHeaders"));
-        messagingTemplate.convertAndSend("/topic/messages/" + sessionId, message, message.getHeaders());
+        messagingTemplate.convertAndSend("/topic/messages/" + userId, message, message.getHeaders());
     }
 }

@@ -1,6 +1,9 @@
 server:
   port: 8081
 spring:
+  config:
+    import:
+      env.properties
   mail:
     host: live.smtp.mailtrap.io
     port: 2525
