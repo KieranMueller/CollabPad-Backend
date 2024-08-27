@@ -23,6 +23,12 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Gradle
+        env:
+          JWTSECRETKEY: ${{secrets.jwtSecretKey}}
+          MAILPASSWORD: ${{secrets.mailPassword}}
+          PRODDBURL: ${{secrets.prodDBUrl}}
+          PRODDBUSERNAME: ${{secrets.prodDBUsername}}
+          PRODDBPASSWORD: ${{secrets.prodDBPassword}}
         run: ./gradlew clean build
 
       - name: Upload artifact for deployment job
@@ -37,15 +43,13 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
-      
+          
       - name: Login to Azure
         uses: azure/login@v2
         with:
