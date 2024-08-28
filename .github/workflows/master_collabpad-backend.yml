@@ -23,6 +23,12 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Gradle
+        env:
+          JWTSECRETKEY: ${{secrets.jwtSecretKey}}
+          MAILPASSWORD: ${{secrets.mailPassword}}
+          PRODDBURL: ${{secrets.prodDBUrl}}
+          PRODDBUSERNAME: ${{secrets.prodDBUsername}}
+          PRODDBPASSWORD: ${{secrets.prodDBPassword}}
         run: ./gradlew clean build
 
       - name: Upload artifact for deployment job
