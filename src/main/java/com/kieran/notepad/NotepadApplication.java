@@ -8,6 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class NotepadApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NotepadApplication.cla
+		SpringApplication.run(NotepadApplication.class, args);
 	}
 }
