@@ -24,11 +24,11 @@ jobs:
 
       - name: Build with Gradle
         env:
-          JWTSECRETKEY: ${{secrets.jwtSecretKey}}
-          MAILPASSWORD: ${{secrets.mailPassword}}
-          PRODDBURL: ${{secrets.prodDBUrl}}
-          PRODDBUSERNAME: ${{secrets.prodDBUsername}}
-          PRODDBPASSWORD: ${{secrets.prodDBPassword}}
+          JWTSECRETKEY: ${{secrets.JWTSECRETKEY}}
+          MAILPASSWORD: ${{secrets.MAILPASSWORD}}
+          PRODDBURL: ${{secrets.PRODDBURL}}
+          PRODDBUSERNAME: ${{secrets.PRODDBUSERNAME}}
+          PRODDBPASSWORD: ${{secrets.PRODDBPASSWORD}}
         run: ./gradlew clean build
 
       - name: Upload artifact for deployment job
