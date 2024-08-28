@@ -31,7 +31,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                     req.requestMatchers("/login/**", "/register/**", "/validate/**",
                                     "/username-exists/**", "/verify-email/**", "/forgot-password/**",
-                                    "/reset-password/**", "/emailId-exists/**", "/ws/**", "/app/**", "/h2-console/**")
+                                    "/reset-password/**", "/emailId-exists/**", "/ws/**", "/app/**",
+                                    "/h2-console/**", "/greeting/**")
                             .permitAll()
                             .requestMatchers("/admin/**")
                             .hasAnyAuthority("ADMIN")
