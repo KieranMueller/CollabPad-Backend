@@ -21,3 +21,5 @@ jwt:
   secret-key: 03c46c509473f4a3e43653b0aac9c5682151cdc1fc6f0243a07e8739f41afd43
   # 24 Hours
   ttl-ms: 86400000
+sample:
+  greeting: ${SAMPLEGREETING:Hello There!}
