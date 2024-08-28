@@ -1,9 +1,6 @@
 server:
   port: 8081
 spring:
-  config:
-    import:
-      env.properties
   mail:
     host: live.smtp.mailtrap.io
     port: 2525
@@ -15,17 +12,23 @@ spring:
           auth: true
           starttls:
             enable: true
+  config:
+    import:
+      env.properties
   jpa:
     open-in-view: false
     hibernate:
       #      ddl-auto: update
       ddl-auto: create-drop
       show-sql: false
+      dialect: org.hibernate.dialect.SQLServer2012Dialect
+---
+spring:
   datasource:
-    url: ${LOCALDBURL}
-    username: ${LOCALDBUSERNAME}
-    password: ${LOCALDBPASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${PRODDBURL}
+    username: ${PRODDBUSERNAME}
+    password: ${PRODDBPASSWORD}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 jwt:
   secret-key: ${JWTSECRETKEY}
   # 24 Hours
