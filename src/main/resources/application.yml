@@ -1,32 +1,23 @@
 server:
   port: 8081
 spring:
-  mail:
-    host: live.smtp.mailtrap.io
-    port: 2525
-    username: api
-    password: ${MAILPASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
   jpa:
     open-in-view: false
     hibernate:
       #      ddl-auto: update
       ddl-auto: create-drop
       show-sql: false
-      dialect: org.hibernate.dialect.SQLServer2012Dialect
 ---
 spring:
+  h2:
+    console:
+      enabled: true
   datasource:
-    url: ${PRODDBURL}
-    username: ${PRODDBUSERNAME}
-    password: ${PRODDBPASSWORD}
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
 jwt:
-  secret-key: ${JWTSECRETKEY}
+  secret-key: 03c46c509473f4a3e43653b0aac9c5682151cdc1fc6f0243a07e8739f41afd43
   # 24 Hours
   ttl-ms: 86400000

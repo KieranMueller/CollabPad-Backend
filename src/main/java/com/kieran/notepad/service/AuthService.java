@@ -25,7 +25,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final EmailService emailService;
+//    private final EmailService emailService;
 
     public ResponseEntity<AuthenticationResponse> register(User request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
@@ -59,8 +59,8 @@ public class AuthService {
                 .emailId(UUID.randomUUID().toString())
                 .websocketId(UUID.randomUUID().toString())
                 .build();
-        emailService.sendEmail(user.getEmail(), user.getUsername() + ", please verify your email for CollabPad",
-                "Hi " + user.getFirstName() + "! Authenticate here (Do NOT share this link) --> http://localhost:4200/login/" + user.getEmailId());
+//        emailService.sendEmail(user.getEmail(), user.getUsername() + ", please verify your email for CollabPad",
+//                "Hi " + user.getFirstName() + "! Authenticate here (Do NOT share this link) --> http://localhost:4200/login/" + user.getEmailId());
         user = userRepository.save(user);
         String token = jwtService.generateToken(user);
         AuthenticationResponse res = new AuthenticationResponse(token, "Success", user.getUsername(), user.getWebsocketId());
@@ -107,8 +107,8 @@ public class AuthService {
                 findByUsernameAndVerifiedEmailTrueOrEmailAndVerifiedEmailTrue(usernameOrEmail, usernameOrEmail);
         if (opUser.isPresent()) {
             User user = opUser.get();
-            emailService.sendEmail(user.getEmail(), user.getUsername() + ", reset password for CollabPad",
-                    "Reset password here --> http://localhost:4200/reset-password/" + user.getEmailId());
+//            emailService.sendEmail(user.getEmail(), user.getUsername() + ", reset password for CollabPad",
+//                    "Reset password here --> http://localhost:4200/reset-password/" + user.getEmailId());
             return ResponseEntity.ok().body(true);
         }
         return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
