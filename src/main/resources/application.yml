@@ -22,4 +22,4 @@ jwt:
   # 24 Hours
   ttl-ms: 86400000
 sample:
-  greeting: ${SAMPLEGREETING:Hello There!}
+  greeting: ${SAMPLEGREETING}
