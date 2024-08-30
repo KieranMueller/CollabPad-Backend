@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthService {
 
-    @Value("frontend.base-url")
+    @Value("${frontend.base-url}")
     private String frontendBaseUrl;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
