@@ -7,6 +7,7 @@ import com.kieran.notepad.model.ResetPasswordRequest;
 import com.kieran.notepad.model.UserResponse;
 import com.kieran.notepad.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +22,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthService {
 
+    @Value("frontend.base-url")
+    private String frontendBaseUrl;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -60,7 +63,7 @@ public class AuthService {
                 .websocketId(UUID.randomUUID().toString())
                 .build();
         emailService.sendEmail(user.getEmail(), user.getUsername() + ", please verify your email for CollabPad",
-                "Hi " + user.getFirstName() + "! Authenticate here (Do NOT share this link) --> http://localhost:4200/login/" + user.getEmailId());
+                "Hi " + user.getFirstName() + "! Authenticate here (Do NOT share this link) --> " + frontendBaseUrl + "/login/" + user.getEmailId());
         user = userRepository.save(user);
         String token = jwtService.generateToken(user);
         AuthenticationResponse res = new AuthenticationResponse(token, "Success", user.getUsername(), user.getWebsocketId());
@@ -108,7 +111,7 @@ public class AuthService {
         if (opUser.isPresent()) {
             User user = opUser.get();
             emailService.sendEmail(user.getEmail(), user.getUsername() + ", reset password for CollabPad",
-                    "Reset password here --> http://localhost:4200/reset-password/" + user.getEmailId());
+                    "Reset password here --> " + frontendBaseUrl + "/reset-password/" + user.getEmailId());
             return ResponseEntity.ok().body(true);
         }
         return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);

@@ -33,3 +33,5 @@ jwt:
   secret-key: ${JWTSECRETKEY}
   # 24 Hours
   ttl-ms: 86400000
+frontend:
+  base-url: https://collabpad.kmcodes.com

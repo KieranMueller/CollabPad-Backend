@@ -29,14 +29,14 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                    req.requestMatchers("/login/**", "/register/**", "/validate/**",
-                                    "/username-exists/**", "/verify-email/**", "/forgot-password/**",
-                                    "/reset-password/**", "/emailId-exists/**", "/ws/**", "/app/**")
-                            .permitAll()
-                            .requestMatchers("/admin/**")
-                            .hasAnyAuthority("ADMIN")
-                            .anyRequest()
-                            .authenticated())
+                        req.requestMatchers("/login/**", "/register/**", "/validate/**",
+                                        "/username-exists/**", "/verify-email/**", "/forgot-password/**",
+                                        "/reset-password/**", "/emailId-exists/**", "/ws/**", "/app/**", "/greeting/**")
+                                .permitAll()
+                                .requestMatchers("/admin/**")
+                                .hasAnyAuthority("ADMIN")
+                                .anyRequest()
+                                .authenticated())
                 .userDetailsService(userDetailsService)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -52,5 +52,4 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
 }
