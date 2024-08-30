@@ -28,7 +28,6 @@ jobs:
         run: |
           echo "Test echo"
           echo $env:SAMPLEGREETING
-          echo "SAMPLEGREETING"
           ./gradlew clean build
 
       - name: Upload artifact for deployment job
