@@ -25,7 +25,11 @@ jobs:
       - name: Build with Gradle
         env:
           SAMPLEGREETING: ${{secrets.SAMPLEGREETING}}
-        run: ./gradlew clean build
+        run: |
+          echo "Test echo"
+          echo SAMPLEGREETING
+          echo "SAMPLEGREETING"
+          ./gradlew clean build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
