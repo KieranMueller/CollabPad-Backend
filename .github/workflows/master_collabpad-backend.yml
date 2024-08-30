@@ -27,7 +27,7 @@ jobs:
           SAMPLEGREETING: ${{secrets.SAMPLEGREETING}}
         run: |
           echo "Test echo"
-          echo %SAMPLEGREETING%
+          echo $env:SAMPLEGREETING
           echo "SAMPLEGREETING"
           ./gradlew clean build
 
