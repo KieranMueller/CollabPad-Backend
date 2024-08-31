@@ -19,9 +19,9 @@ public class BeforeAppStartup implements CommandLineRunner {
     private final PasswordEncoder encoder;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         User user1 = User.builder()
-                .username("KieranMueller")
+                .username("demo")
                 .email("dummy@gmail.com")
                 .password(encoder.encode("password!"))
                 .firstName("Kieran")
