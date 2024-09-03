@@ -19,7 +19,7 @@ spring:
     open-in-view: false
     hibernate:
       #      ddl-auto: update
-      ddl-auto: create-drop
+      ddl-auto: update
       show-sql: false
       dialect: org.hibernate.dialect.SQLServer2012Dialect
 ---
