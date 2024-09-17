@@ -25,17 +25,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody User request) {
-        log.info("Login request received: {}", request);
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
+        log.info("Login request received: {}", request.getUsername());
         return authService.authenticate(request);
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<Boolean> hasValidToken(@RequestBody LoginDetails details) {
-        log.info("Validate token request received: {}", details);
-        User user = new User();
-        user.setUsername(details.getUsername());
-        return ResponseEntity.ok(jwtService.isValid(details.getToken(), user));
+    public ResponseEntity<Boolean> hasValidToken(@RequestBody ValidateTokenRequest request) {
+        log.info("Validate token request received: {}", request.getUsername());
+        return ResponseEntity.ok(jwtService.isValid(request.getToken(), request.getUsername()));
     }
 
     @PostMapping("/username-exists")

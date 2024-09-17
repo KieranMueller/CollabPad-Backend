@@ -1,5 +1,6 @@
 package com.kieran.notepad.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,12 +12,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Table(name = "user_table")
 public class User implements UserDetails {
 
@@ -35,6 +34,14 @@ public class User implements UserDetails {
     private boolean verifiedEmail;
     private String emailId;
     private String websocketId;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "shared_notes_table",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "note_id")
+    )
+    @JsonIgnore
+    private List<Note> notes;
 
     public enum Role {
         USER,

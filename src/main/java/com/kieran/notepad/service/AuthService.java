@@ -1,10 +1,7 @@
 package com.kieran.notepad.service;
 
 import com.kieran.notepad.entity.User;
-import com.kieran.notepad.model.AuthenticationResponse;
-import com.kieran.notepad.model.EmailVerificationResponse;
-import com.kieran.notepad.model.ResetPasswordRequest;
-import com.kieran.notepad.model.UserResponse;
+import com.kieran.notepad.model.*;
 import com.kieran.notepad.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,7 +67,7 @@ public class AuthService {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    public ResponseEntity<AuthenticationResponse> authenticate(User request) {
+    public ResponseEntity<AuthenticationResponse> authenticate(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
