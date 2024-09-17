@@ -19,7 +19,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-
     public ResponseEntity<Map<String, String>> saveUserState(SaveStateRequest req) {
         Optional<User> opUser = userRepository.findByUsername(req.getUsername());
         if (opUser.isEmpty()) {

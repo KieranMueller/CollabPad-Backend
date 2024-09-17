@@ -38,7 +38,7 @@ public class SecurityConfig {
                                         // Make sure to revert below
                                         //"/create-shared-note/**",
                                         "/shared-notes/**",
-                                        "/shared-note/**", "/update-note/**")
+                                        "/shared-note/**")
                                 .permitAll()
                                 .requestMatchers("/admin/**")
                                 .hasAnyAuthority("ADMIN")
