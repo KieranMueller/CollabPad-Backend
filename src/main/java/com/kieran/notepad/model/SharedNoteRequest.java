@@ -17,4 +17,5 @@ public class SharedNoteRequest {
     private String text;
     private String ownerUsername;
     private List<String> collaboratorUsernames;
+    private String usernameMakingChange;
 }

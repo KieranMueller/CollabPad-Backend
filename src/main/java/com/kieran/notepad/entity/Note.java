@@ -5,9 +5,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -28,4 +30,9 @@ public class Note {
     private String text;
     @Builder.Default
     private String createdDate = Timestamp.from(Instant.now()).toString();
+    //Time!
+    private String lastEdited;
+    @Builder.Default
+    private String websocketId = UUID.randomUUID().toString();
+    private String usernameLastEdited;
 }

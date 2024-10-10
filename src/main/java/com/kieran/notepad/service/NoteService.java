@@ -8,8 +8,12 @@ import com.kieran.notepad.repository.NoteRepository;
 import com.kieran.notepad.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
@@ -42,6 +46,8 @@ public class NoteService {
                     .collaborators(collaborators)
                     .text(req.getText())
                     .createdDate(Timestamp.from(Instant.now()).toString())
+                    .usernameLastEdited(owner.getUsername())
+                    .lastEdited(Timestamp.from(Instant.now()).toString())
                     .build();
             Note savedNote = noteRepository.save(noteEntity);
             collaborators.forEach(user -> {
@@ -134,6 +140,68 @@ public class NoteService {
         }
     }
 
+    public SharedNoteResponse updateNoteTextById(Long noteId, String username, String text) {
+        Optional<Note> opNote = noteRepository.findById(noteId);
+        if (opNote.isEmpty()) return null;
+        Note note = opNote.get();
+        Optional<User> opUser = userRepository.findByUsername(username);
+        if (opUser.isEmpty()) return null;
+        note.setText(text);
+        note.setUsernameLastEdited(username);
+        note.setLastEdited(Timestamp.from(Instant.now()).toString());
+        Note savedNote = noteRepository.save(note);
+        return mapNoteToCreateSharedNoteResponse(savedNote);
+    }
+
+    public Boolean usernameExistsOnNote(String username, Long noteId) {
+        Optional<Note> opNote = noteRepository.findById(noteId);
+        if (opNote.isEmpty()) return false;
+        Note note = opNote.get();
+        Optional<User> opUser = userRepository.findByUsername(username);
+        if (opUser.isEmpty()) return false;
+        for (User user : note.getCollaborators()) {
+            if (user.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ResponseEntity<List<SharedNoteResponse>> addSingleUserByUsernameToManyNotesByNoteId(String username, String usernameMakingChange,
+                                                                                               List<Long> noteIds) {
+        try {
+            Optional<User> opUser = userRepository.findByUsernameAndVerifiedEmailTrue(username);
+            if (opUser.isEmpty()) return null;
+            User user = opUser.get();
+            List<SharedNoteResponse> listToReturn = new ArrayList<>();
+            List<Note> savedNotes = new ArrayList<>();
+            for (Long noteId : noteIds) {
+                Optional<Note> opNote = noteRepository.findById(noteId);
+                if (opNote.isEmpty()) break;
+                Note note = opNote.get();
+                if (note.getCollaborators() != null && !note.getCollaborators().isEmpty()) {
+                    note.getCollaborators().add(user);
+                } else {
+                    note.setCollaborators(List.of(user));
+                }
+                note.setLastEdited(Timestamp.from(Instant.now()).toString());
+                note.setUsernameLastEdited(usernameMakingChange);
+                savedNotes.add(noteRepository.save(note));
+                listToReturn.add(mapNoteToCreateSharedNoteResponse(note));
+            };
+            if (user.getNotes() != null && !user.getNotes().isEmpty()) {
+                user.getNotes().addAll(savedNotes);
+            } else {
+                user.setNotes(savedNotes);
+            }
+            userRepository.save(user);
+            return new ResponseEntity<>(listToReturn, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error adding user to multiple notes {}", e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     private SharedNoteResponse mapNoteToCreateSharedNoteResponse(Note note) {
         Map<String, Long> collaboratorUsernamesAndIds = new HashMap<>();
         if (note.getCollaborators() != null && !note.getCollaborators().isEmpty()) {
@@ -149,6 +217,9 @@ public class NoteService {
                 .collaboraterUsernamesAndIds(collaboratorUsernamesAndIds)
                 .text(note.getText())
                 .createdDate(note.getCreatedDate())
+                .websocketId(note.getWebsocketId())
+                .usernameLastEdited(note.getUsernameLastEdited())
+                .lastEdited(note.getLastEdited())
                 .build();
     }
 
@@ -182,6 +253,8 @@ public class NoteService {
                 note.setCollaborators(collaborators);
             }
         }
+        note.setUsernameLastEdited(req.getUsernameMakingChange());
+        note.setLastEdited(Timestamp.from(Instant.now()).toString());
         return note;
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Data
@@ -29,6 +28,9 @@ public class User implements UserDetails {
     private String lastName;
     @Column(length = 8_000)
     private String history;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private Image avatar;
     @Enumerated(EnumType.STRING)
     private Role role;
     private boolean verifiedEmail;
@@ -42,6 +44,10 @@ public class User implements UserDetails {
     )
     @JsonIgnore
     private List<Note> notes;
+    // New Stuff
+    private String description;
+    private String city;
+    private String state;
 
     public enum Role {
         USER,

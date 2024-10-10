@@ -20,4 +20,7 @@ public class SharedNoteResponse {
     private Map<String, Long> collaboraterUsernamesAndIds;
     private String text;
     private String createdDate;
+    private String websocketId;
+    private String usernameLastEdited;
+    private String lastEdited;
 }

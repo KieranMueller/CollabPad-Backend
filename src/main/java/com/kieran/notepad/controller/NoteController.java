@@ -5,6 +5,7 @@ import com.kieran.notepad.model.SharedNoteResponse;
 import com.kieran.notepad.service.NoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,21 @@ public class NoteController {
         return noteService.updateNoteById(noteId, req);
     }
 
+    @PostMapping("/add-user-to-notes")
+    public ResponseEntity<List<SharedNoteResponse>> addSingleUserByUsernameToManyNotesByNoteId(@RequestParam("user") String username,
+                                                                     @RequestParam("changer") String usernameMakingChange,
+                                                                     @RequestBody List<Long> noteIds) {
+        log.info("Received request to add user with username {} to the following noteIds {}", username, noteIds);
+        return noteService.addSingleUserByUsernameToManyNotesByNoteId(username, usernameMakingChange, noteIds);
+    }
+
+    @PutMapping("/update-note-text/{noteId}/{username}")
+    public SharedNoteResponse updateNoteTextById(@PathVariable Long noteId, @PathVariable String username,
+                                                 @RequestBody(required = false) String text) {
+        log.info("Received request for user {} to update text for note with id {}, to {}", username, noteId, text);
+        return noteService.updateNoteTextById(noteId, username, text);
+    }
+
     @DeleteMapping("/delete-note/{noteId}")
     public SharedNoteResponse deleteNoteById(@PathVariable Long noteId) {
         log.info("Received request to delete note with id {}", noteId);
@@ -58,5 +74,11 @@ public class NoteController {
     public Object removeMultipleUsersFromNoteByUsername(@PathVariable(value = "id") Long noteId, @RequestBody String[] usernames) {
         log.info("Received request to remove users from note with id {} : {}", noteId, usernames);
         return noteService.removeMultipleUsersFromNoteByUsername(noteId, usernames);
+    }
+
+    @GetMapping("exists")
+    public Boolean usernameExistsOnNote(@RequestParam(value = "user") String username, @RequestParam(value = "id") Long noteId) {
+        log.info("Received request to check if user {} exists on note id {}", username, noteId);
+        return noteService.usernameExistsOnNote(username, noteId);
     }
 }

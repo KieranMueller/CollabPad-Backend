@@ -1,9 +1,15 @@
 server:
+  tomcat:
+    max-swallow-size: 20MB
   port: 8081
 spring:
   config:
     import:
       env.properties
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
   mail:
     host: live.smtp.mailtrap.io
     port: 2525

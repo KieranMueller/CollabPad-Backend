@@ -26,4 +26,14 @@ public class WebSocketController {
         log.info("{}", message.getHeaders().get("nativeHeaders"));
         messagingTemplate.convertAndSend("/topic/messages/" + userId, message, message.getHeaders());
     }
+
+    @MessageMapping("/shared/{noteWebsocketId}")
+    public void sendMessageForSharedNote(@DestinationVariable String noteWebsocketId,
+                                         @RequestBody Message<String> message) {
+        log.info("Received shareNote message. Note websocketId {}. Message {}, {}",
+                noteWebsocketId, message.getPayload(), message);
+        log.info("headers {}", message.getHeaders());
+        messagingTemplate.setDefaultDestination("/send/{userId}");
+        messagingTemplate.convertAndSend("/topic/sharedMessages/" + noteWebsocketId, message, message.getHeaders());
+    }
 }
