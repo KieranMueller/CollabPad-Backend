@@ -36,10 +36,10 @@ public class BeforeAppStartup implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws IOException {
-        Resource resource = resourceLoader.getResource("classpath:images/lemur.jpg");
-        File file = resource.getFile();
-        byte[] fileContent = Files.readAllBytes(file.toPath());
-        InputStream in = new ByteArrayInputStream(fileContent);
+//        Resource resource = resourceLoader.getResource("classpath:images/lemur.jpg");
+//        File file = resource.getFile();
+//        byte[] fileContent = Files.readAllBytes(file.toPath());
+//        InputStream in = new ByteArrayInputStream(fileContent);
 
         User user1 = User.builder()
                 .username("demo")
@@ -47,9 +47,9 @@ public class BeforeAppStartup implements CommandLineRunner {
                 .password(encoder.encode("password!"))
                 .firstName("Kieran")
                 .lastName("Mueller")
-                .avatar(Image.builder()
-                        .content(in.readAllBytes())
-                        .build())
+//                .avatar(Image.builder()
+//                        .content(in.readAllBytes())
+//                        .build())
                 .history(null)
                 .role(User.Role.ADMIN)
                 .verifiedEmail(true)
